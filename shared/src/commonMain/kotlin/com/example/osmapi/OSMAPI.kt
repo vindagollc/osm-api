@@ -1,5 +1,7 @@
 package com.example.osmapi
 
+import com.example.osmapi.changeset.Changeset
+import com.example.osmapi.changeset.ChangesetResponse
 import com.example.osmapi.user.UserResponse
 import io.ktor.client.HttpClient
 
@@ -71,7 +73,38 @@ class OSMAPI {
         </osm>
     """.trimIndent()
 
+    val dummyChangesetsResponse = """<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="OpenStreetMap server" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<changeset id="73" created_at="2024-01-29T10:54:43Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T11:54:43Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="72" created_at="2024-01-29T10:43:44Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T11:43:44Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="71" created_at="2024-01-29T09:51:12Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:51:12Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="70" created_at="2024-01-29T09:47:49Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:47:49Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="69" created_at="2024-01-29T09:42:39Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:42:39Z" uid="1" user="Naresh Vindago">
+</changeset>
+</osm>
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="OpenStreetMap server" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+<changeset id="73" created_at="2024-01-29T10:54:43Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T11:54:43Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="72" created_at="2024-01-29T10:43:44Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T11:43:44Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="71" created_at="2024-01-29T09:51:12Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:51:12Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="70" created_at="2024-01-29T09:47:49Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:47:49Z" uid="1" user="Naresh Vindago">
+</changeset>
+<changeset id="69" created_at="2024-01-29T09:42:39Z" open="false" comments_count="0" changes_count="0" closed_at="2024-01-29T10:42:39Z" uid="1" user="Naresh Vindago">
+</changeset>
+</osm>""".trimIndent()
 
+    val customDecoder =  XML(){
+        defaultPolicy {
+            ignoreUnknownChildren()
+        }
+    }
     suspend fun getData(): String {
     // capaibilities
         val url = baseUrl+"capabilities"
@@ -116,5 +149,21 @@ class OSMAPI {
         }
         val body = thecoder.decodeFromString<UserResponse>(dummyUserResponse)
         return body.osmVersion
+    }
+
+    suspend fun getUserChangesets(): List<Changeset> {
+        val url = posmBase + "changesets?limit=5"
+        val response = client.get(url){
+            header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
+        }
+        val changesetResponse = customDecoder.decodeFromString<ChangesetResponse>(response.bodyAsText())
+        val body = response.bodyAsText()
+
+        return changesetResponse.changesets
+    }
+
+    fun getLocalChangesets(): List<Changeset> {
+        val response = customDecoder.decodeFromString<ChangesetResponse>(dummyChangesetsResponse);
+        return response.changesets
     }
 }

@@ -4,6 +4,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import kotlin.test.assertTrue
 
 class OSMAPITests {
     private  val apiInstance = OSMAPI()
@@ -34,6 +35,25 @@ class OSMAPITests {
             print(result)
             assertEquals(result, "0.6")
         }
+    }
+
+    @Test
+    fun testGetChangesets() {
+        runBlocking {
+            val result = apiInstance.getUserChangesets()
+            print(result)
+            assertTrue { result.isNotEmpty() }
+            val first = result.first()
+            assertEquals(first.uid,"1") // First user
+        }
+    }
+    @Test
+    fun testLocalChangesets(){
+        val result = apiInstance.getLocalChangesets()
+        assertTrue(result.isNotEmpty())
+        val firstChangeset = result.first()
+        print(firstChangeset.id)
+        assertEquals(firstChangeset.id,"73")
     }
 }
 
