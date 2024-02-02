@@ -21,5 +21,19 @@ class OSMAPITests {
         val result = apiInstance.getLocalCapabilities()
         assertEquals(result,"0.6")
     }
+    @Test
+    fun testLocalUser() {
+        val result = apiInstance.getLocalUser()
+        assertEquals(result,"0.6")
+    }
+
+    @Test
+    fun testRemoteUser(){
+        runBlocking {
+            val result = apiInstance.getUser()
+            print(result)
+            assertEquals(result, "0.6")
+        }
+    }
 }
 
