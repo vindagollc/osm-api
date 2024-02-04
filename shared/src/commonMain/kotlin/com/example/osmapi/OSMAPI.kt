@@ -1,12 +1,16 @@
 package com.example.osmapi
 
 import com.example.osmapi.changeset.Changeset
+import com.example.osmapi.changeset.ChangesetPayload
 import com.example.osmapi.changeset.ChangesetResponse
+import com.example.osmapi.user.OSMUser
 import com.example.osmapi.user.UserResponse
 import io.ktor.client.HttpClient
 
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.put
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -126,7 +130,7 @@ class OSMAPI {
         return body.api.version.minimum
     }
 
-    suspend fun getUser() : String {
+    suspend fun getUser() : OSMUser {
         val url = posmBase + "user/details"
         val response = client.get(url){
             header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
@@ -138,7 +142,7 @@ class OSMAPI {
         }
         print(response.bodyAsText())
         val body = theCoder.decodeFromString<UserResponse>(response.bodyAsText())
-        return body.osmVersion
+        return body.user
     }
 
     fun getLocalUser(): String {
@@ -162,6 +166,28 @@ class OSMAPI {
         return changesetResponse.changesets
     }
 
+    suspend fun openChangeset(comments:List<String> = listOf("Changeset")) : String {
+        // Opens up a new changeset
+        val url = posmBase + "changeset/create"
+        val payload = ChangesetPayload("Created by API")
+        val paylodString = XML.encodeToString(payload).trimIndent()
+        val response = client.put(url){
+            header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
+            setBody(paylodString)
+        }
+        print(response.status)
+         val theResponse = response.bodyAsText()
+        return theResponse
+    }
+
+    suspend fun closeChangeset(id: String): String {
+        val url = posmBase+"changeset/"+id+"/close"
+        val response = client.put(url){
+            header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
+        }
+        val theResponse = response.bodyAsText()
+        return theResponse
+    }
     fun getLocalChangesets(): List<Changeset> {
         val response = customDecoder.decodeFromString<ChangesetResponse>(dummyChangesetsResponse);
         return response.changesets

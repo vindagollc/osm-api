@@ -33,7 +33,7 @@ class OSMAPITests {
         runBlocking {
             val result = apiInstance.getUser()
             print(result)
-            assertEquals(result, "0.6")
+            assertEquals(result.id, 1)
         }
     }
 
@@ -54,6 +54,27 @@ class OSMAPITests {
         val firstChangeset = result.first()
         print(firstChangeset.id)
         assertEquals(firstChangeset.id,"73")
+    }
+
+    @Test
+    fun testOpenChangeset() {
+        runBlocking {
+            val changesetR = apiInstance.openChangeset()
+            print("----")
+            print(changesetR)
+            print("-----")
+            assertTrue(changesetR.isNotEmpty())
+        }
+    }
+
+    @Test
+    fun testCloseChangeset() {
+        runBlocking {
+            val closedCR = apiInstance.closeChangeset("75")
+            print("--> Closed <---\n")
+            print(closedCR)
+            print("\n<---CR--->")
+        }
     }
 }
 
