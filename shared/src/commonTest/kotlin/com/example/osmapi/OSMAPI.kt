@@ -76,5 +76,13 @@ class OSMAPITests {
             print("\n<---CR--->")
         }
     }
+
+    @Test
+    fun testGetNode(){
+        runBlocking {
+            val node = apiInstance.getSingleNode("75")
+            assertTrue { node.isNotEmpty() }
+        }
+    }
 }
 

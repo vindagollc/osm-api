@@ -14,6 +14,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
+import nl.adaptivity.xmlutil.serialization.ElementSerializer
 import  nl.adaptivity.xmlutil.serialization.XML
 
 class OSMAPI {
@@ -190,6 +191,20 @@ class OSMAPI {
     }
     fun getLocalChangesets(): List<Changeset> {
         val response = customDecoder.decodeFromString<ChangesetResponse>(dummyChangesetsResponse);
+        val twoResponse = customDecoder.decodeFromString(ElementSerializer,dummyChangesetsResponse)
+
         return response.changesets
+    }
+
+   suspend fun getSingleNode(id: String): String {
+        // Get the stuff
+        val url = posmBase+"node/"+id
+        val response = client.get(url)
+       val twoResponse = customDecoder.decodeFromString(ElementSerializer,response.bodyAsText())
+       print(twoResponse.attributes)
+       print("TAG NAME")
+       print(twoResponse.tagName)
+       return response.bodyAsText()
+
     }
 }
