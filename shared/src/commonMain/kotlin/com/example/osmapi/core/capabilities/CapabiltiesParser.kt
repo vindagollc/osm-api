@@ -15,7 +15,7 @@ class CapabiltiesParser: XMLParser() , APIResponseReader<Capabilities> {
     override fun onStartElement(
         name: String,
         path: String,
-        attributes: List<Pair<String, String>>
+        attributes: Map<String, String>
     ) {
         if(path.contains("api>version")){
             // Parse apiVersion
@@ -26,25 +26,44 @@ class CapabiltiesParser: XMLParser() , APIResponseReader<Capabilities> {
         }
         if(path.contains("api>note_area")){
             // Parse maxNoteQueryArea
+            capabilities.maxNotesQueryAreaInSquareDegrees = attributes["maximum"]?.toFloat() ?: 0.0F
         }
         if(path.contains("api>tracepoints")){
             // parse maxPointsInGpsTracePerPage
+            capabilities.maxPointsInGpsTracePerPage = attributes["maximum"]?.toInt() ?: 0
+        }
+        if(path.contains("api>waynodes")){
+            capabilities.maxNodsInWay = attributes["maximum"]?.toInt() ?: 0
+        }
+        if (path.contains("api>relationmembers")){
+            capabilities.maxMembersInRelation = attributes["maximum"]?.toInt() ?: 0
+        }
+        if(path.contains("api>changesets")){
+            capabilities.maxElementsPerChangeset = attributes["maximum_elements"]?.toInt() ?: 0
+            capabilities.defaultChangesetsQueryLimit = attributes["default_query_limit"]?.toInt() ?: 0
+            capabilities.maximumChangesetsQueryLimit = attributes["maximum_query_limit"]?.toInt() ?: 0
+        }
+        if(path.contains("api>timeout")) {
+            capabilities.timeoutInSeconds = attributes["seconds"]?.toInt() ?: 0
+        }
+        if(path.contains("api>status")) {
+            capabilities.databaseStatus = Capabilities.parseApiStatus(attributes["database"]?:"")
+            capabilities.mapDataStatus = Capabilities.parseApiStatus(attributes["api"]?:"")
+            capabilities.gpsTracesStatus = Capabilities.parseApiStatus(attributes["gpx"]?:"")
+        }
+        if(path.contains("api>notes")){
+            capabilities.defaultChangesetsQueryLimit = attributes["default_query_limit"]?.toInt() ?: 0
+            capabilities.maximumNotesQueryLimit = attributes["maximum_query_limit"]?.toInt() ?: 0
         }
     }
 
-    private fun parseAPIVersions(apiAttributes: List<Pair<String, String>>){
-        apiAttributes.forEach {
-            if(it.first.equals("minimum")){
-                capabilities.minSupportedApiVersion = it.second.toFloat()
-            }
-            if(it.first.equals("maximum")){
-                capabilities.maxSupportedApiVersion = it.second.toFloat()
-            }
-        }
+    private fun parseAPIVersions(apiAttributes: Map<String, String>){
+        capabilities.minSupportedApiVersion = apiAttributes["minimum"]?.toFloat() ?: 0.0F
+        capabilities.maxSupportedApiVersion = apiAttributes["maximum"]?.toFloat() ?: 0.0F
     }
 
-    private fun parseMaxQueryArea(apiAttributes: List<Pair<String, String>>){
-
+    private fun parseMaxQueryArea(apiAttributes: Map<String, String>){
+        capabilities.maxMapQueryAreaInSquareDegrees = apiAttributes["maximum"]?.toFloat() ?: 0.0F
     }
 
 

@@ -38,7 +38,7 @@ abstract class XMLParser {
                 }
                 // Get the attributes and loop them
                 // Generate the key value map
-                val attributeMap = reader.attributes.map { it.localName to it.value }
+                val attributeMap = reader.attributes.map { it.localName to it.value }.toMap()
                 onStartElement(reader.localName,xPath,attributeMap)
             }
             if (event == EventType.END_ELEMENT){
@@ -52,7 +52,7 @@ abstract class XMLParser {
         }
     }
 
-    abstract fun onStartElement(name: String, path: String, attributes: List<Pair<String, String>>) // TODO: Change the type for attributes
+    abstract fun onStartElement(name: String, path: String, attributes: Map<String, String>) // TODO: Change the type for attributes
 
     abstract fun onEndElement(name: String, path: String)
     abstract fun onText(text: String)

@@ -55,5 +55,8 @@ class Capabilities {
 
         companion object{
         const val serialVersionUID = 1L
+            fun parseApiStatus(statusString: String): ApiStatus {
+                return ApiStatus.valueOf(statusString.uppercase())
+            }
     }
 }

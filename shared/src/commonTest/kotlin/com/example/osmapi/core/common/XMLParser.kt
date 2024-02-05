@@ -54,7 +54,7 @@ class GeneralParser : XMLParser() {
     override fun onStartElement(
         name: String,
         path: String,
-        attributes: List<Pair<String, String>>
+        attributes: Map<String, String>
     ) {
          println("Started element")
          print(name)

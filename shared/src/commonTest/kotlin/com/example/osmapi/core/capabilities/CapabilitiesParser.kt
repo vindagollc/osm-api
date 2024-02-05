@@ -35,6 +35,7 @@ class CapabilitiesParserTests {
         val capabilities = capParser.parse(capabilitiesResponse)
         assertEquals(capabilities.minSupportedApiVersion,0.6F)
         assertEquals(capabilities.maxSupportedApiVersion,0.6F)
+        assertEquals(capabilities.maximumNotesQueryLimit,10000)
 
     }
 }
