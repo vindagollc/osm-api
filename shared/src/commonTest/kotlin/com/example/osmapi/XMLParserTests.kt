@@ -3,7 +3,7 @@ package com.example.osmapi
 import kotlin.test.Test
 
 class XMLParserTests {
-    private val xmlParser = XMLParser()
+    private val xmlParser = LocalXMLParser()
 
     @Test
     fun testRemoteUser() {

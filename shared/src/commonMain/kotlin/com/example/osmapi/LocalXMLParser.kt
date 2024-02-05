@@ -5,12 +5,13 @@ import nl.adaptivity.xmlutil.XmlReader
 import nl.adaptivity.xmlutil.xmlStreaming
 
 
-class XMLParser {
+class LocalXMLParser {
     val stack = mutableListOf<XmlElement>()
 
     private fun parse(xmlReader: XmlReader) {
         xmlReader.next()
         var eventType = xmlReader.eventType
+
 
         while (eventType != EventType.END_DOCUMENT) {
             when (eventType) {
@@ -59,7 +60,8 @@ class XMLParser {
 
 
         val reader : XmlReader = xmlStreaming.newGenericReader(xmlString)
-        val parser = XMLParser()
+
+        val parser = LocalXMLParser()
         parser.parse(reader)
 
         val elements = parser.stack
