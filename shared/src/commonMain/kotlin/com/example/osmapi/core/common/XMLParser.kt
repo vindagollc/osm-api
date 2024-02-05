@@ -24,24 +24,26 @@ abstract class XMLParser {
             // use when here.
             if (event == EventType.START_ELEMENT){
 
-                if(reader.depth > currentDepth){
-                    currentDepth = reader.depth
-                    pathHandler.add(reader.name.getLocalPart())
-                }
-                else if(reader.depth < currentDepth){
-                    currentDepth = reader.depth
-                    pathHandler.removeLast()
-                }
-                else if(reader.depth == currentDepth){
-                     pathHandler.removeLast()
-                    pathHandler.add(reader.name.getLocalPart())
-                }
+                pathHandler.add(reader.name.getLocalPart())
+//                if(reader.depth > currentDepth){
+//                    currentDepth = reader.depth
+//                    pathHandler.add(reader.name.getLocalPart())
+//                }
+//                else if(reader.depth < currentDepth){
+//                    currentDepth = reader.depth
+//                    pathHandler.removeLast()
+//                }
+//                else if(reader.depth == currentDepth){
+//                     pathHandler.removeLast()
+//                    pathHandler.add(reader.name.getLocalPart())
+//                }
                 // Get the attributes and loop them
                 // Generate the key value map
                 val attributeMap = reader.attributes.map { it.localName to it.value }.toMap()
                 onStartElement(reader.localName,xPath,attributeMap)
             }
             if (event == EventType.END_ELEMENT){
+                pathHandler.removeLast()
                 // send out end element with name and path
                 onEndElement(reader.localName,xPath)
             }

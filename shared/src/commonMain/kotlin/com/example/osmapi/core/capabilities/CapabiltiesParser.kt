@@ -12,6 +12,7 @@ import com.example.osmapi.core.common.XMLParser
 class CapabiltiesParser: XMLParser() , APIResponseReader<Capabilities> {
 
     private lateinit var capabilities: Capabilities
+    private var imageBlackListRegexes = mutableListOf<String>()
     override fun onStartElement(
         name: String,
         path: String,
@@ -55,6 +56,10 @@ class CapabiltiesParser: XMLParser() , APIResponseReader<Capabilities> {
             capabilities.defaultChangesetsQueryLimit = attributes["default_query_limit"]?.toInt() ?: 0
             capabilities.maximumNotesQueryLimit = attributes["maximum_query_limit"]?.toInt() ?: 0
         }
+
+        if(path.contains("policy>imagery>blacklist")){
+            imageBlackListRegexes.add(attributes["regex"] ?:"")
+        }
     }
 
     private fun parseAPIVersions(apiAttributes: Map<String, String>){
@@ -69,7 +74,9 @@ class CapabiltiesParser: XMLParser() , APIResponseReader<Capabilities> {
 
 
     override fun onEndElement(name: String, path: String) {
-        println("Ended "+name)
+        if (name == "imagery"){
+            capabilities.imageryBlacklistRegExes = imageBlackListRegexes
+        }
     }
 
     override fun onText(text: String) {

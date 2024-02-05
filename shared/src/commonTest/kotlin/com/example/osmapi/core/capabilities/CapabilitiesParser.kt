@@ -36,6 +36,7 @@ class CapabilitiesParserTests {
         assertEquals(capabilities.minSupportedApiVersion,0.6F)
         assertEquals(capabilities.maxSupportedApiVersion,0.6F)
         assertEquals(capabilities.maximumNotesQueryLimit,10000)
+        assertEquals(capabilities.imageryBlacklistRegExes.count(),4)
 
     }
 }
