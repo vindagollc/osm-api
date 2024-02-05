@@ -10,4 +10,16 @@ class BoundingBox(private  val min: OsmLatLon, private  val max: OsmLatLon) {
     fun getMax(): LatLon{
         return max
     }
+    fun getMaxLat(): Double{
+        return max.getLatitude()
+    }
+    fun getMaxLon(): Double{
+        return max.getLongitude()
+    }
+    fun getMinLon(): Double {
+        return min.getLongitude()
+    }
+    fun getMinLat(): Double {
+        return min.getLatitude()
+    }
 }
