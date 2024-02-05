@@ -3,6 +3,7 @@ package com.example.osmapi.changeset
 import com.example.osmapi.user.OSMUser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import nl.adaptivity.xmlutil.serialization.XmlDefault
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
 /*
@@ -58,6 +59,7 @@ data class Changeset(
     @SerialName("comments_count")
     val commentsCount:String,
     @SerialName("closed_at")
+    @XmlDefault("null")
     val closedAt:String,
     val uid:String,
     val user: String
