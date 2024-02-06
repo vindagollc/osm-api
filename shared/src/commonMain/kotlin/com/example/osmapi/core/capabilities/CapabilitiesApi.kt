@@ -4,7 +4,8 @@ import com.example.osmapi.core.OSMConnection
 
 class CapabilitiesApi(val osm: OSMConnection) {
 
-    fun get() : Capabilities{
-        TODO("Yet to finish this task")
+    suspend fun get() : Capabilities {
+        // Get the response and parse it
+        return osm.fetch("capabilities", CapabiltiesParser())
     }
 }
