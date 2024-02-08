@@ -1,11 +1,14 @@
 package com.example.osmapi.changeset
 
+import com.example.osmapi.core.OSMConnection
+import com.example.osmapi.core.common.SingleElementHandler
+
 
 /**
  * Gets information for, searches for and shows changeset discussions
  * All interactions with this class require an osm connection with a logged in user.
  */
-class ChangesetsApi {
+class ChangesetsApi(val osm: OSMConnection) {
 
     companion object
     {
@@ -16,6 +19,9 @@ class ChangesetsApi {
      * Fetches a single changeset
      */
     fun get(id: Long){
+        val query = CHANGESET+"/"+id+"?include_discussion=true"
+        val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
+
 
     }
 

@@ -39,6 +39,7 @@ kotlin {
             implementation(libs.ktor.serialization.json)
             implementation(libs.pdvrieze.serialization.xml)
             implementation(libs.pdvrieze.core)
+            implementation(libs.kotlinx.datetime)
 //            implementation(libs.ktor.serialization.xml)
         }
         commonTest.dependencies {

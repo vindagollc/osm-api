@@ -1,5 +1,6 @@
 package com.example.osmapi.changeset
 
+// Class not used anymore
 import com.example.osmapi.user.OSMUser
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

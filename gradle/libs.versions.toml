@@ -9,7 +9,7 @@ ktor = "2.3.7"
 coroutines = "1.7.3"
 serializaton = "1.6.2"
 extxml = "0.86.3"
-
+kotlinx-datetime = "0.5.0"
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -29,7 +29,7 @@ kotlinx-serialization-json = {module = "org.jetbrains.kotlinx:kotlinx-serializat
 ktor-serialization-json = {module="io.ktor:ktor-serialization-kotlinx-json", version.ref ="ktor"}
 pdvrieze-serialization-xml = {module="io.github.pdvrieze.xmlutil:serialization", version.ref="extxml"}
 pdvrieze-core = {module="io.github.pdvrieze.xmlutil:core",version.ref="extxml"}
-
+kotlinx-datetime = {module="org.jetbrains.kotlinx:kotlinx-datetime",version.ref="kotlinx-datetime"}
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
