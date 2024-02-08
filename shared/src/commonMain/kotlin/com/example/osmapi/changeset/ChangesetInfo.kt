@@ -7,7 +7,7 @@ import kotlinx.datetime.Instant
 
 
 class ChangesetInfo(id: Long, user: User) : Changeset(id, user) {
-    var tags: Map<String, String> = mutableMapOf()
+    var tags: MutableMap<String, String> = mutableMapOf()
     var noteCount: Int = 0
     var changesCount: Int = 0
     var boundingBox: BoundingBox = BoundingBox(0.0,0.0,0.0,0.0) // TODO: Make a default one

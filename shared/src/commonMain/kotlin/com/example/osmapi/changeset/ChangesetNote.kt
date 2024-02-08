@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 
 data class ChangesetNote(
     var user: User,
-    var text: String,
+    var text: String = "",
     // Created at to be got
     var createdAt: Instant
 )

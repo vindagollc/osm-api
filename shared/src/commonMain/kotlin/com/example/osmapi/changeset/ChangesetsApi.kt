@@ -18,11 +18,11 @@ class ChangesetsApi(val osm: OSMConnection) {
     /**
      * Fetches a single changeset
      */
-    fun get(id: Long){
-        val query = CHANGESET+"/"+id+"?include_discussion=true"
+   suspend fun get(id: Long) : ChangesetInfo {
+        val query = "$CHANGESET/$id?include_discussion=true"
         val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
-
-
+        osm.fetchAuthenticated(query, ChangesetParser(handler))
+        return handler.get()!!
     }
 
     /**
