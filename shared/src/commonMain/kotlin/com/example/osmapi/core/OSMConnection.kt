@@ -3,6 +3,7 @@ package com.example.osmapi.core
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.post
 import io.ktor.client.statement.bodyAsText
 
 
@@ -32,6 +33,16 @@ class OSMConnection(private var apiUrl: String,
         }
         return reader.parse(response.bodyAsText())
     }
+
+    suspend fun <T> post(path: String, reader: APIResponseReader<T>) :T { // May have to add another function or parameter to accept payload
+        val url = apiUrl.plus(path)
+        val response = client.post(url){
+            setTimeout(timeout)
+            header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
+        }
+        return reader.parse(response.bodyAsText())
+    }
+
 
     suspend fun <T> fetchAuthenticated(path:String, reader: APIResponseReader<T>) : T {
         //header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")

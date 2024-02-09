@@ -18,6 +18,16 @@ class ChangesetApiTests {
         runBlocking {
             val changeset = api.get(changesetId)
             assertFalse { changeset.isOpen }
+            assertTrue { changeset.discussion.isNotEmpty() }
+        }
+    }
+    @Test
+    fun testComment(){
+        val osmConnection = OSMConnection(posmBase,"OSMAPI")
+        val api = ChangesetsApi(osmConnection)
+        runBlocking {
+            val changeset = api.comment(changesetId,"Test comment from user")
+            assertFalse { changeset.isOpen }
         }
     }
 }

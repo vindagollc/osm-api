@@ -1,5 +1,6 @@
 package com.example.osmapi
 
+import Capabilities
 import com.example.osmapi.changeset.Changeset
 import com.example.osmapi.changeset.ChangesetPayload
 import com.example.osmapi.changeset.ChangesetResponse
@@ -127,7 +128,8 @@ class OSMAPI {
     }
     fun getLocalCapabilities(): String {
 
-        val body = XML.decodeFromString(Capabilities.serializer(), localResponseText)
+
+        val body = XML.decodeFromString<Capabilities>(localResponseText)
         return body.api.version.minimum
     }
 

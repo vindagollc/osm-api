@@ -22,4 +22,8 @@ class BoundingBox(private  val min: OsmLatLon, private  val max: OsmLatLon) {
     fun getMinLat(): Double {
         return min.getLatitude()
     }
+
+    fun getAsLeftBottomRightTopString() : String {
+        return "${getMinLon()},${getMinLat()},${getMaxLon()},${getMaxLat()}"
+    }
 }
