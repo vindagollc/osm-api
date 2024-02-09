@@ -1,7 +1,7 @@
 package com.example.osmapi.core.common.errors
 //
 
-class OsmApiException(
+open class OsmApiException(
     cause: Throwable? = null,
     val errorCode: Int = 0,
     val errorTitle: String = "",
