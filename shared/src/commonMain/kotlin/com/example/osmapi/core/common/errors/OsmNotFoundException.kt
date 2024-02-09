@@ -1,4 +1,7 @@
 package com.example.osmapi.core.common.errors
 
-class OsmNotFoundException: OsmApiException() {
-}
+class OsmNotFoundException(
+    errorCode: Int = 0,
+    errorTitle: String = "",
+    description: String = ""
+) : OsmConnectionException(errorCode = errorCode, errorTitle = errorTitle, description = description)

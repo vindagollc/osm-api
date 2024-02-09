@@ -1,9 +1,7 @@
 package com.example.osmapi.core.common.errors
 
-class OsmTooManyRequestsException:OsmApiException(){
-
-    companion object{
-        const val serialVersionUID = 1L
-    }
-}
-
+class OsmTooManyRequestsException(
+    errorCode: Int = 0,
+    errorTitle: String = "",
+    description: String = ""
+) : OsmConnectionException(errorCode, errorTitle, description)
