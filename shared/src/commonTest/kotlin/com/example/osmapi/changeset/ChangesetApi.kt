@@ -30,4 +30,14 @@ class ChangesetApiTests {
             assertFalse { changeset.isOpen }
         }
     }
+
+    @Test
+    fun testSubscribe(){
+        val osmConnection = OSMConnection(posmBase,"OSMAPI")
+        val api = ChangesetsApi(osmConnection)
+        runBlocking {
+            val changeset = api.subscribe(changesetId)
+            assertFalse { changeset.isOpen }
+        }
+    }
 }

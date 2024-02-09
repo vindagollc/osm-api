@@ -52,7 +52,7 @@ class QueryChangesetFilters {
     }
 
     fun byChangesets(changesets:List<Long>) : QueryChangesetFilters {
-        
+
         if(changesets.isEmpty()){
             throw  IllegalArgumentException("Must at least supply one changeset id")
         }

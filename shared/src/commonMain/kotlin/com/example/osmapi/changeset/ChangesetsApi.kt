@@ -1,6 +1,7 @@
 package com.example.osmapi.changeset
 
 import com.example.osmapi.core.OSMConnection
+import com.example.osmapi.core.common.Handler
 import com.example.osmapi.core.common.SingleElementHandler
 import io.ktor.http.encodeURLParameter
 
@@ -26,6 +27,13 @@ class ChangesetsApi(val osm: OSMConnection) {
         return handler.get()!!
     }
 
+    suspend fun find(handler:Handler<ChangesetInfo>, filters: QueryChangesetFilters? = null) {
+        val paramString : String = filters?.toParamString() ?: ""
+        val query = if(paramString.isEmpty()) "" else "?$paramString"
+        val path = CHANGESET+"s"+query
+        osm.fetchAuthenticated(path,ChangesetParser(handler)) // Handler will get the data.
+    }
+
     /**
      * Adds a comment to the changeset
      */
@@ -39,11 +47,18 @@ class ChangesetsApi(val osm: OSMConnection) {
         return handler.get()!!
     }
 
-    private  fun urlEncodeText(text:String): String {
-        //TODO: Need to verify this
-        return     text.encodeURLParameter()
-
+    suspend fun subscribe(id:Long) : ChangesetInfo {
+        val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
+        val apiPath = "$CHANGESET/$id/subscribe"
+        osm.post(apiPath,ChangesetParser(handler))
+        return handler.get()!!
     }
+
+    private  fun urlEncodeText(text:String): String {
+        return     text.encodeURLParameter()
+    }
+
+
 
     fun getData(id: Long){
 
