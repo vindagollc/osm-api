@@ -86,7 +86,7 @@ class ChangesetParser(var handler: Handler<ChangesetInfo>): XMLParser() , APIRes
         }
         val closedAtStr = attributes["closed_at"]
 
-        val result = ChangesetInfo(0,User())
+        val result = ChangesetInfo(0,User(attributes["uid"]?.toLong() ?: 0, attributes["user"] ?: ""))
         result.boundingBox = boundingBox
 
         if(closedAtStr != null){
@@ -96,9 +96,7 @@ class ChangesetParser(var handler: Handler<ChangesetInfo>): XMLParser() , APIRes
     }
 
     private fun parseUser(attributes: Map<String, String>) : User{
-        val cUser = User()
-        cUser.id = attributes["uid"]?.toLong() ?: 0
-        cUser.displayName = attributes["user"] ?: ""
+        val cUser = User(attributes["uid"]?.toLong() ?: 0, attributes["user"] ?: "")
         return cUser
     }
 
