@@ -3,6 +3,8 @@ package com.example.osmapi.changeset
 import com.example.osmapi.core.OSMConnection
 import com.example.osmapi.core.common.Handler
 import com.example.osmapi.core.common.SingleElementHandler
+import com.example.osmapi.core.common.errors.OsmConflictException
+import com.example.osmapi.core.common.errors.OsmNotFoundException
 import io.ktor.http.encodeURLParameter
 
 
@@ -50,8 +52,27 @@ class ChangesetsApi(val osm: OSMConnection) {
     suspend fun subscribe(id:Long) : ChangesetInfo {
         val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
         val apiPath = "$CHANGESET/$id/subscribe"
-        osm.post(apiPath,ChangesetParser(handler))
-        return handler.get()!!
+        return try {
+            osm.post(apiPath, ChangesetParser(handler))
+            handler.get()!!
+        } catch (ignore: OsmConflictException){
+            //Ignoring the exception when user already subscribed to the changeset
+            get(id)
+        }
+
+    }
+
+    suspend fun unsubscribe(id: Long): ChangesetInfo {
+        val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
+        val apiPath = "$CHANGESET/$id/unsubscribe"
+         try {
+            osm.post(apiPath, ChangesetParser(handler))
+             return handler.get()!!
+        } catch (ignore: OsmNotFoundException){
+            //TODO: Need to make it better.
+            val result = get(id)
+           throw  ignore //
+        }
     }
 
     private  fun urlEncodeText(text:String): String {
