@@ -4,6 +4,7 @@ import nl.adaptivity.xmlutil.EventType
 import nl.adaptivity.xmlutil.XmlReader
 import nl.adaptivity.xmlutil.attributes
 import nl.adaptivity.xmlutil.xmlStreaming
+import kotlin.reflect.KClass
 
 /**
  * Generic data parser for osm purpose
@@ -51,6 +52,15 @@ abstract class XMLParser {
                 // send out text element with name and path
                 onText(reader.text)
             }
+        }
+    }
+
+    fun getParent(): String? {
+        if(pathHandler.count() <= 1){
+            return null
+        }
+        else {
+            return pathHandler[pathHandler.count()-2]
         }
     }
 
