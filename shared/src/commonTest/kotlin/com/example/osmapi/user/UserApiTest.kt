@@ -15,8 +15,31 @@ class UserApiTest {
         runBlocking {
             val userInfo = api.getMine()
 
-            assertEquals("Naresh Vindago",userInfo.displayName)
+            assertEquals("Naresh Vindago", userInfo.displayName)
             assertEquals(1, userInfo.id)
+        }
+    }
+
+    @Test
+    fun testGetUserApi() {
+        val osmConnection = OSMConnection(posmBase, "OSMAPI")
+        val api = UserApi(osmConnection)
+        runBlocking {
+            val userInfo = api.get(2)
+
+            assertEquals("Rajesh K", userInfo?.displayName)
+            assertEquals(2, userInfo?.id)
+        }
+    }
+
+    @Test
+    fun testGetAllUserApi() {
+        val osmConnection = OSMConnection(posmBase, "OSMAPI")
+        val api = UserApi(osmConnection)
+        runBlocking {
+            val userInfo = api.getAll(listOf(1,2,3))
+
+            assertEquals(3, userInfo.size)
         }
     }
 }
