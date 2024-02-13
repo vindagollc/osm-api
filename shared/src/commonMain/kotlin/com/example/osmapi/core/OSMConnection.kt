@@ -63,6 +63,7 @@ class OSMConnection(
             setTimeout(timeout)
             header("Authorization", "Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
         }
+        handleResponseCode(response)
         return reader.parse(response.bodyAsText())
     }
 
