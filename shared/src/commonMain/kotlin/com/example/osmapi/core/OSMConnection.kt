@@ -13,10 +13,9 @@ class OSMConnection(
     private var apiUrl: String,
     private var userAgent: String,
     private var oauthToken: String? = null,
-    private var timeout: Int = DEFAULT_TIMEOUT
+    private var timeout: Int = DEFAULT_TIMEOUT,
+    private val client: HttpClient = HttpClient()
 ) {
-
-    private val client = HttpClient()
 
     fun setTimeout(timeout: Int) {
         this.timeout = timeout
