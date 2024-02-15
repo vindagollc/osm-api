@@ -9,18 +9,23 @@ import com.example.osmapi.core.user.UserInfo
 
 /**
  * Get user infos and details
- * All the interactions within this class require a connection with logged in user.
+ * All the interactions within this class require a connection with logged-in user.
  */
 class UserApi(val osm: OSMConnection) {
 
+    /**
+     * Returns the current userinfo
+     */
     suspend fun getMine(): UserInfo {
         val handler: SingleElementHandler<UserInfo> = SingleElementHandler()
-        val info = UserInfo(1, "Hi")
-        //osm.fetchAuthenticated<UserInfo>("user/details",)
         osm.fetchAuthenticated("user/details", UserDetailsParser(handler))
         return handler.get() as UserDetails
     }
 
+    /**
+     * @param userId id of the user to get the user info for
+     * @return the user info of the given user. Null if the user does not exist.
+     *  */
     suspend fun get(userId: Long): UserInfo? {
         return try {
             val handler = SingleElementHandler<UserInfo>()
@@ -31,13 +36,21 @@ class UserApi(val osm: OSMConnection) {
         }
     }
 
-    suspend fun getAll(userIds: Collection<Long?>): List<UserInfo> {
+    /**
+     * @param userIds ids of users to get the use info for
+     * @return list of user info
+     */
+    suspend fun getAll(userIds: Collection<Long?>): List<UserInfo?> {
         if (userIds.isEmpty()) return emptyList()
         val handler = ListHandler<UserInfo>()
         osm.fetchAuthenticated("users?users=" + toCommaList(userIds), UserInfoParser(handler))
         return handler.get()
     }
 
+    /**
+     * @param ids ids of users to get the use info for
+     * @return string of ids separated by a comma
+     */
     private fun toCommaList(ids: Iterable<Long?>): String {
         val result = StringBuilder()
         var first = true

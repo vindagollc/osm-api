@@ -5,6 +5,7 @@ import com.example.osmapi.core.capabilities.CapabilitiesApi
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class ChangesetApiTests {
@@ -17,6 +18,7 @@ class ChangesetApiTests {
         val api = ChangesetsApi(osmConnection)
         runBlocking {
             val changeset = api.get(changesetId)
+            assertNotNull(changeset)
             assertFalse { changeset.isOpen }
             assertTrue { changeset.discussion.isNotEmpty() }
         }
@@ -37,6 +39,7 @@ class ChangesetApiTests {
         val api = ChangesetsApi(osmConnection)
         runBlocking {
             val changeset = api.subscribe(changesetId)
+            assertNotNull(changeset)
             assertFalse { changeset.isOpen }
         }
     }

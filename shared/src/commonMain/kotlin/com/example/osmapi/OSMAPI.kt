@@ -4,8 +4,6 @@ import Capabilities
 import com.example.osmapi.changeset.Changeset
 import com.example.osmapi.changeset.ChangesetPayload
 import com.example.osmapi.changeset.ChangesetResponse
-import com.example.osmapi.user.OSMUser
-import com.example.osmapi.user.UserResponse
 import io.ktor.client.HttpClient
 
 import io.ktor.client.request.get
@@ -131,31 +129,6 @@ class OSMAPI {
 
         val body = XML.decodeFromString<Capabilities>(localResponseText)
         return body.api.version.minimum
-    }
-
-    suspend fun getUser() : OSMUser {
-        val url = posmBase + "user/details"
-        val response = client.get(url){
-            header("Authorization","Basic bmFyZXNoZEB2aW5kYWdvLmluOmEkaHdhN2hhbUE")
-        }
-        val theCoder=  XML(){
-            defaultPolicy {
-                ignoreUnknownChildren()
-            }
-        }
-        print(response.bodyAsText())
-        val body = theCoder.decodeFromString<UserResponse>(response.bodyAsText())
-        return body.user
-    }
-
-    fun getLocalUser(): String {
-        val thecoder=  XML(){
-            defaultPolicy {
-                ignoreUnknownChildren()
-            }
-        }
-        val body = thecoder.decodeFromString<UserResponse>(dummyUserResponse)
-        return body.osmVersion
     }
 
     suspend fun getUserChangesets(): List<Changeset> {

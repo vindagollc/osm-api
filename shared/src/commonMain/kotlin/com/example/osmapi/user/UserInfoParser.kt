@@ -20,7 +20,6 @@ open class UserInfoParser(private val handler: Handler<UserInfo>) : XMLParser(),
     private var text: String? = null
     override fun parse(xmlString: String) {
         doParse(xmlString)
-
     }
 
     open fun createUser(id: Long, name: String) {
