@@ -2,11 +2,12 @@ package com.example.osmapi.core.user
 
 import com.example.osmapi.core.OSMConnection
 
+/** Get the user permissions */
 class PermissionsApi(val osm: OSMConnection) {
 
-    fun get():List<String>{
-        // Make the call ad get the permisssions
-
-        return listOf("") // TODO: Implement this method
+    /** @return a list of permissions the user has on this server (=are granted though OAuth). Use
+     *          the constants defined in the Permission, i.e Permission.CHANGE_PREFERENCES */
+    suspend  fun get():List<String> {
+        return osm.fetchAuthenticated("permissions", PermissionsParser())
     }
 }
