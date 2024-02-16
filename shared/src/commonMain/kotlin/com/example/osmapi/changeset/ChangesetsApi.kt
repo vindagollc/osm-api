@@ -96,6 +96,14 @@ class ChangesetsApi(val osm: OSMConnection) {
 
     }
 
+    /**
+     * Unsubscribe the user from a changeset discussion. The changeset must be closed already.
+     * @param id id of the changeset
+     * @return the changeset
+     *
+     * @throws OsmAuthorizationException if this application is not authorized to modify the map
+     * @throws OsmNotFoundException if the given changeset does not exist
+     */
     suspend fun unsubscribe(id: Long): ChangesetInfo {
         val handler: SingleElementHandler<ChangesetInfo> = SingleElementHandler()
         val apiPath = "$CHANGESET/$id/unsubscribe"
@@ -113,8 +121,9 @@ class ChangesetsApi(val osm: OSMConnection) {
         return     text.encodeURLParameter()
     }
 
-
-
+    /** Get map data changes associated with the given changeset, using the default OsmMapDataFactory
+     * @param id id of the changeset to get data for
+     */
     fun getData(id: Long){
 
     }
