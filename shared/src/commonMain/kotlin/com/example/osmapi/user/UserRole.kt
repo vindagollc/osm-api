@@ -1,4 +1,4 @@
-package com.example.osmapi.core.user
+package com.example.osmapi.user
 
 object UserRole {
     const val ADMINISTRATOR = "administrator"

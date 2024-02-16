@@ -2,7 +2,6 @@ package com.example.osmapi.user
 
 import com.example.osmapi.core.common.Handler
 import com.example.osmapi.core.map.data.OsmLatLon
-import com.example.osmapi.core.user.UserInfo
 
 class UserDetailsParser(private val handler: Handler<UserInfo>) : UserInfoParser(handler) {
 

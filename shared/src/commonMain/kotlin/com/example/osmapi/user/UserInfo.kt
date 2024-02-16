@@ -1,5 +1,6 @@
-package com.example.osmapi.core.user
+package com.example.osmapi.user
 
+import com.example.osmapi.core.user.User
 import kotlinx.datetime.Instant
 
 open class UserInfo(id: Long, displayName: String) : User(id, displayName) {

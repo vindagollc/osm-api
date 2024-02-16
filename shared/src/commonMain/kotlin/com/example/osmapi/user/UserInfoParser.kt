@@ -3,7 +3,6 @@ package com.example.osmapi.user
 import com.example.osmapi.core.APIResponseReader
 import com.example.osmapi.core.common.Handler
 import com.example.osmapi.core.common.XMLParser
-import com.example.osmapi.core.user.UserInfo
 import kotlinx.datetime.Instant
 
 

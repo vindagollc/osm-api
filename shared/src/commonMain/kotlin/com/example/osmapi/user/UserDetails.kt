@@ -1,7 +1,6 @@
 package com.example.osmapi.user
 
 import com.example.osmapi.core.map.data.LatLon
-import com.example.osmapi.core.user.UserInfo
 
 
 class UserDetails(id: Long, displayName: String) : UserInfo(id, displayName) {

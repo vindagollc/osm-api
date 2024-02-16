@@ -4,7 +4,6 @@ import com.example.osmapi.core.OSMConnection
 import com.example.osmapi.core.common.ListHandler
 import com.example.osmapi.core.common.SingleElementHandler
 import com.example.osmapi.core.common.errors.OsmNotFoundException
-import com.example.osmapi.core.user.UserInfo
 
 
 /**
