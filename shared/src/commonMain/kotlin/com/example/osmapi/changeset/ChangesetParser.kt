@@ -33,6 +33,10 @@ import kotlinx.datetime.Instant
  * </changeset>
  * </osm>
  */
+/**
+ * Parses the changeset info. It parses XML naively. Doesnt care where in the XML the note nodes are.
+ * once the parsing is done, it hands over to Handler object.
+ */
 class ChangesetParser(var handler: Handler<ChangesetInfo>): XMLParser() , APIResponseReader<Unit> {
 
     companion object{

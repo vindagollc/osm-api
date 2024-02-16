@@ -5,7 +5,7 @@ import nl.adaptivity.xmlutil.serialization.XmlSerialName
 import kotlin.jvm.JvmName
 
 /**
- * Payload for opening a payload
+ * Payload for opening a changeset
  * <osm>
  *                 	<changeset>
  *                 		<tag k="comment" v="Testing adding stuff."/>
