@@ -58,7 +58,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.osmapi"
+    namespace = "com.vindago.osmapi"
     compileSdk = 34
     defaultConfig {
         minSdk = 28
