@@ -1,5 +1,6 @@
 package com.vindago.osmapi
 
+import ApiStatus
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -39,6 +40,16 @@ class OSMAPITests {
         val firstChangeset = result.first()
         print(firstChangeset.id)
         assertEquals(firstChangeset.id,"73")
+    }
+
+    @Test
+    fun testCapabilitiesNew(){
+        runBlocking {
+            apiInstance.getCaps().collect{
+                assertEquals(it.api.version.minimum,"0.6")
+                assertEquals(it.api.status.api.uppercase(), ApiStatus.ONLINE.name)
+            }
+        }
     }
 
     @Test

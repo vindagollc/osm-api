@@ -2,7 +2,7 @@ package com.vindago.osmapi.core.capabilities
 
 class Capabilities {
 
-    public enum class ApiStatus{
+    enum class ApiStatus{
         ONLINE,
         OFFLINE,
         READONLY,

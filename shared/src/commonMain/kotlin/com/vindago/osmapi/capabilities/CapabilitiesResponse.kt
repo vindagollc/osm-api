@@ -2,6 +2,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import nl.adaptivity.xmlutil.serialization.XmlSerialName
 
+
+enum class ApiStatus{
+    ONLINE,
+    OFFLINE,
+    READONLY,
+    UNKNOWN
+}
+
 @Serializable
 @XmlSerialName(
     value = "osm"
@@ -17,7 +25,39 @@ data class Capabilities(
     val api: Api,
     @XmlSerialName("policy")
     val policy: Policy,
-)
+){
+    fun isMapDataReadable(): Boolean {
+        return parseApiStatus(api.status.api) != ApiStatus.OFFLINE  ||
+                parseApiStatus(api.status.api) != ApiStatus.UNKNOWN
+    }
+
+    fun isDatabaseWritable(): Boolean {
+        return parseApiStatus(api.status.database) == ApiStatus.ONLINE
+    }
+
+    fun isDatabaseReadable(): Boolean {
+        return parseApiStatus(api.status.database) != ApiStatus.OFFLINE  ||
+                parseApiStatus(api.status.database) != ApiStatus.UNKNOWN
+    }
+
+    fun isMapDataModifiable(): Boolean {
+        return parseApiStatus(api.status.api) == ApiStatus.ONLINE
+    }
+
+    fun isGpsTracesUploadable(): Boolean {
+        return parseApiStatus(api.status.gpx) == ApiStatus.ONLINE
+    }
+    fun isGpsTracesReadable() : Boolean{
+        return parseApiStatus(api.status.gpx) != ApiStatus.OFFLINE ||
+                parseApiStatus(api.status.gpx) != ApiStatus.UNKNOWN
+    }
+
+    private fun parseApiStatus(statusString: String): ApiStatus {
+        return ApiStatus.valueOf(statusString.uppercase())
+    }
+}
+
+
 
 @Serializable
 data class Api(
@@ -120,9 +160,9 @@ data class Timeout(
     value = "status"
 )
 data class Status(
-    val database: String,
-    val api: String,
-    val gpx: String
+    val database: String = ApiStatus.UNKNOWN.name,
+    val api: String = ApiStatus.UNKNOWN.name,
+    val gpx: String = ApiStatus.UNKNOWN.name
 )
 
 @Serializable

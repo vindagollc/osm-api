@@ -11,6 +11,9 @@ import io.ktor.client.request.header
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.decodeFromString
 import nl.adaptivity.xmlutil.serialization.ElementSerializer
 import  nl.adaptivity.xmlutil.serialization.XML
@@ -123,8 +126,8 @@ class OSMAPI {
         val body = XML.decodeFromString(Capabilities.serializer(), response.bodyAsText())
         return body.api.version.minimum
     }
-    fun getLocalCapabilities(): String {
 
+    fun getLocalCapabilities(): String {
 
         val body = XML.decodeFromString<Capabilities>(localResponseText)
         return body.api.version.minimum
@@ -153,6 +156,20 @@ class OSMAPI {
         print(response.status)
          val theResponse = response.bodyAsText()
         return theResponse
+    }
+
+    fun getCaps() : Flow<Capabilities> = flow {
+        val url = posmBase+"capabilities"
+        val response = client.get(url)
+        print(response.bodyAsText())
+        val body = XML.decodeFromString(Capabilities.serializer(), response.bodyAsText())
+        emit(body)
+    }
+
+    suspend fun data(){
+        getCaps().collect {
+            it.isMapDataReadable()
+        }
     }
 
     suspend fun closeChangeset(id: String): String {
